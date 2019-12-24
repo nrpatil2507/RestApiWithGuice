@@ -3,6 +3,7 @@ package com.axelor.web;
 import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.FormParam;
@@ -17,13 +18,20 @@ import org.jboss.resteasy.plugins.providers.html.View;
 import com.axelor.db.Contact;
 import com.axelor.db.Person;
 import com.axelor.db.Phone;
+import com.axelor.service.ContactService;
 import com.axelor.service.PersonService;
+import com.axelor.service.PhoneService;
 import com.google.inject.Inject;
 
 @Path("/")
 public class PersonController {
 	@Inject
 	PersonService personService;
+	@Inject
+	PhoneService phoneService;
+
+	@Inject
+	ContactService contactService;
 
 	@POST
 	@Path("/insert")
@@ -123,28 +131,28 @@ public class PersonController {
 
 	@GET
 	@Path("/upCon/{cid}")
-	public View upCon(@PathParam("cid") String cid) {
-		int p = Integer.parseInt(cid);
-		Phone phone;
-		phone = personService.findPhone(p);
-		return new View("/updateCon.jsp", phone, "data");
+	public void upCon(@PathParam("cid") int cid, @Context HttpServletRequest request,
+			@Context HttpServletResponse response) throws ServletException, IOException {
+		Phone phone = phoneService.findPhone(cid);
+
+		request.setAttribute("phone_id", cid);
+		request.setAttribute("phone_obj", phone);
+		request.getRequestDispatcher("../updateCon.jsp").forward(request, response);
 	}
 
 	@POST
 	@Path("/updateCon")
-	public String updatecon(@Context HttpServletRequest req, @Context HttpServletResponse res) {
+	public void updatecon(@Context HttpServletRequest request, @Context HttpServletResponse res) throws IOException {
 
-		int id = Integer.parseInt(req.getParameter("pid"));
-		Phone phone = personService.findPhone(id);
-
-		phone.setPhone_type(req.getParameter("pt"));
-		phone.setService_provider(req.getParameter("sr"));
+		Phone phone = phoneService.findPhone(Integer.parseInt(request.getParameter("pid")));
+		phone.setPhone_type(request.getParameter("pt"));
+		phone.setService_provider(request.getParameter("sr"));
 		Contact c = phone.getContact();
-		c.setCno(req.getParameter("cno"));
+		c.setCno(request.getParameter("cno"));
+		contactService.updateContact(c);
 
-		personService.updateCon(phone, c);
-		return "updated";
-
+		phoneService.updatePhone(phone);
+		res.sendRedirect("../display");
 	}
 
 }
