@@ -11,7 +11,7 @@
 </head>
 <body>
 <%@include file="home.jsp" %>
-<form method="post" action="http://localhost:8080/restJspDemo/update">
+<form method="post" action="update">
 	<%
 	Person p=(Person)request.getAttribute("data");
 	

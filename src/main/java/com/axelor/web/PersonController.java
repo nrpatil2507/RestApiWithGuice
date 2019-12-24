@@ -40,6 +40,13 @@ public class PersonController {
 		res.sendRedirect("./display");
 	}
 
+	@GET
+	@Path("/display")
+	public View display() {
+		List<Person> ls = personService.Getallperson();
+		return new View("/display.jsp", ls, "data");
+	}
+
 	@POST
 	@Path("/insertCon")
 	public String addphone(@FormParam("sr") String sr, @FormParam("phone_type") String pt,
@@ -58,27 +65,6 @@ public class PersonController {
 
 		personService.InsertPhone(p, c);
 		return "added successfully";
-	}
-
-	@GET
-	@Path("/display")
-	public View display() {
-		List<Person> ls = personService.Getallperson();
-		return new View("/display.jsp", ls, "data");
-	}
-
-	@GET
-	@Path("/showContact/{pid}")
-	public View showcon(@PathParam("pid") int pid) {
-		Person p = personService.FindPerson(pid);
-		return new View("/showContact.jsp", p, "data");
-	}
-
-	@GET
-	@Path("/addphone")
-	public View disphone() {
-		List<Person> ls = personService.Getallperson();
-		return new View("/addPhone.jsp", ls, "data");
 	}
 
 	@GET
@@ -112,6 +98,20 @@ public class PersonController {
 			throws IOException {
 		personService.DeleteData(id);
 		res.sendRedirect("../display");
+	}
+
+	@GET
+	@Path("/showContact/{pid}")
+	public View showcon(@PathParam("pid") int pid) {
+		Person p = personService.FindPerson(pid);
+		return new View("/showContact.jsp", p, "data");
+	}
+
+	@GET
+	@Path("/addphone")
+	public View disphone() {
+		List<Person> ls = personService.Getallperson();
+		return new View("/addPhone.jsp", ls, "data");
 	}
 
 	@GET
