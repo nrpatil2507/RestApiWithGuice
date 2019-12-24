@@ -1,8 +1,13 @@
-package com.axelor.entity;
+package com.axelor.db;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity
 
@@ -14,6 +19,17 @@ public class Person {
 	String lname;
 	String email;
 	String add;
+
+	@OneToMany(mappedBy = "person", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+	List<Phone> plist;
+
+	public List<Phone> getPlist() {
+		return plist;
+	}
+
+	public void setPlist(List<Phone> plist) {
+		this.plist = plist;
+	}
 
 	public int getPid() {
 		return pid;

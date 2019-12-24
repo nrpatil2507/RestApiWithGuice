@@ -1,4 +1,4 @@
-package com.axelor.entity;
+package com.axelor.db;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,30 +11,31 @@ import javax.persistence.Table;
 @Table(name = "contact")
 public class Contact {
 	@Id
-	@GeneratedValue(strategy=GenerationType.SEQUENCE)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private int cid;
 
-	@Column(name="contactNo")
-	private String  cno;
+	@Column(name = "contactNo")
+	private String cno;
 
 	public int getCid() {
 		return cid;
 	}
+
 	public void setCid(int cid) {
 		this.cid = cid;
 	}
-	
+
 	public String getCno() {
 		return cno;
 	}
+
 	public void setCno(String cno) {
 		this.cno = cno;
 	}
+
 	@Override
 	public String toString() {
 		return "Contact [cid=" + cid + ", cno=" + cno + "]";
 	}
-	
-	
 
 }
