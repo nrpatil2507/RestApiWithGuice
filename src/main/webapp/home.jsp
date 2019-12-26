@@ -12,7 +12,7 @@
 <tr >
 	<td><a href="index.jsp">HOME</a></td>
 	<td><a href="insert.jsp">INSERT</a></td>
-	<td><a href="display">DISPLAY</a></td>
+	<td><a href="http://localhost:8080/restJspDemo/display">DISPLAY</a></td>
 	<td><a href="addphone">ADD CONTACT</a></td>
 </tr>
 </table>

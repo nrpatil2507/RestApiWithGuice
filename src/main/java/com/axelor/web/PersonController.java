@@ -75,8 +75,8 @@ public class PersonController {
 		p1.setAdd(req.getParameter("add"));
 		p1.setEmail(req.getParameter("email"));
 		personService.UpdateData(p1, pid);
-		List<Person> ls = personService.Getallperson();
-		req.setAttribute("data", ls);
+		// List<Person> ls = personService.Getallperson();
+		// req.setAttribute("data", ls);
 		res.sendRedirect("./display");
 
 	}
