@@ -14,6 +14,21 @@
 </head>
 <body>
 <%@include file="home.jsp" %>
+<form method="post" action="Search">
+		<table border=1 width="500px" align="center">
+			<tr>
+				<th colspan="2">Person Details Search</th>
+			<tr>
+				<td>Enter Name</td>
+				<td><input type="text" name="name" /></td>
+			</tr>
+			<tr>
+				<td>
+				<td><input type="submit" name="submit" value="Search" /> 
+				</td>
+			</tr>
+		</table>
+	</form>
 	<%
 	List<Person> s=(ArrayList<Person>)request.getAttribute("data");
 	

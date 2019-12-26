@@ -3,6 +3,7 @@ package com.axelor.service;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 
 import com.axelor.db.Person;
 import com.google.inject.Inject;
@@ -48,6 +49,14 @@ public class PersonServiceImpl implements PersonService {
 	public List<Person> Getallperson() {
 		List<Person> p = em.get().createQuery("from Person", Person.class).getResultList();
 		return p;
+	}
+
+	@Override
+	public List<Person> getPersonBySearch(String name) {
+		Query q = em.get().createQuery("from Person where fname like :b").setParameter("b", name);
+		List<Person> list = q.getResultList();
+		return list;
+
 	}
 
 }

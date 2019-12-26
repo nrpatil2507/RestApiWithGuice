@@ -29,9 +29,10 @@ public class PersonController {
 	PersonService personService;
 	@Inject
 	PhoneService phoneService;
-
 	@Inject
 	ContactService contactService;
+
+	// crud operation in person
 
 	@POST
 	@Path("/insert")
@@ -53,26 +54,6 @@ public class PersonController {
 	public View display() {
 		List<Person> ls = personService.Getallperson();
 		return new View("/display.jsp", ls, "data");
-	}
-
-	@POST
-	@Path("/insertCon")
-	public String addphone(@FormParam("sr") String sr, @FormParam("phone_type") String pt,
-			@FormParam("person_id") String id, @FormParam("cno") String cno) {
-		Contact c = new Contact();
-		Phone p = new Phone();
-		int pid = Integer.parseInt(id);
-		Person p1 = personService.FindPerson(pid);
-		c.setCno(cno);
-
-		p.setPhone_type(pt);
-		p.setService_provider(sr);
-		p.setContact(c);
-		p.setPerson(p1);
-
-		contactService.insertContact(c);
-		phoneService.insertPhone(p);
-		return "added successfully";
 	}
 
 	@GET
@@ -108,6 +89,15 @@ public class PersonController {
 		res.sendRedirect("../display");
 	}
 
+	@POST
+	@Path("/Search")
+	public View search(@Context HttpServletRequest request, @Context HttpServletResponse response) throws IOException {
+		List<Person> list = personService.getPersonBySearch(request.getParameter("name"));
+		return new View("/display.jsp", list, "data");
+	}
+
+	// crud operation in contact
+
 	@GET
 	@Path("/showContact/{pid}")
 	public View showcon(@PathParam("pid") int pid) {
@@ -120,6 +110,26 @@ public class PersonController {
 	public View disphone() {
 		List<Person> ls = personService.Getallperson();
 		return new View("/addPhone.jsp", ls, "data");
+	}
+
+	@POST
+	@Path("/insertCon")
+	public String addphone(@FormParam("sr") String sr, @FormParam("phone_type") String pt,
+			@FormParam("person_id") String id, @FormParam("cno") String cno) {
+		Contact c = new Contact();
+		Phone p = new Phone();
+		int pid = Integer.parseInt(id);
+		Person p1 = personService.FindPerson(pid);
+		c.setCno(cno);
+
+		p.setPhone_type(pt);
+		p.setService_provider(sr);
+		p.setContact(c);
+		p.setPerson(p1);
+
+		contactService.insertContact(c);
+		phoneService.insertPhone(p);
+		return "added successfully";
 	}
 
 	@GET
@@ -135,9 +145,7 @@ public class PersonController {
 	@Path("/upCon/{cid}")
 	public void upCon(@PathParam("cid") int cid, @Context HttpServletRequest request,
 			@Context HttpServletResponse response) throws ServletException, IOException {
-
 		Phone phone = phoneService.findPhone(cid);
-		request.setAttribute("phone_id", cid);
 		request.setAttribute("phone_obj", phone);
 		request.getRequestDispatcher("../updateCon.jsp").forward(request, response);
 	}

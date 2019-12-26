@@ -15,4 +15,6 @@ public interface PersonService {
 
 	List<Person> Getallperson();
 
+	List<Person> getPersonBySearch(String name);
+
 }
