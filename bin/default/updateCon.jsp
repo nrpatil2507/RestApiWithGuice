@@ -12,7 +12,7 @@
 <body>
 <form method="post" action="UpdateCon">
 		<%@include file="home.jsp"%>
-		<%Phone p=(Phone)request.getAttribute("data");
+		<%Phone p=(Phone)request.getAttribute("phone_obj");
 		Contact c=p.getContact();
 		%>
 		<table border=1 width="500px" align="center">

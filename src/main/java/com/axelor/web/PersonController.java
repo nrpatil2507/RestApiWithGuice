@@ -67,11 +67,11 @@ public class PersonController {
 
 		p.setPhone_type(pt);
 		p.setService_provider(sr);
-
 		p.setContact(c);
 		p.setPerson(p1);
 
-		personService.InsertPhone(p, c);
+		contactService.insertContact(c);
+		phoneService.insertPhone(p);
 		return "added successfully";
 	}
 
@@ -124,17 +124,19 @@ public class PersonController {
 
 	@GET
 	@Path("/deleteCon/{id}")
-	public View delcon(@PathParam("id") int phid) {
-		int pid = personService.DeletePhone(phid);
-		return showcon(pid);
+	public void delcon(@PathParam("id") int phid, @Context HttpServletRequest req, @Context HttpServletResponse res)
+			throws IOException {
+		Phone p = phoneService.findPhone(phid);
+		phoneService.deletePhone(p);
+		res.sendRedirect("../display");
 	}
 
 	@GET
 	@Path("/upCon/{cid}")
 	public void upCon(@PathParam("cid") int cid, @Context HttpServletRequest request,
 			@Context HttpServletResponse response) throws ServletException, IOException {
-		Phone phone = phoneService.findPhone(cid);
 
+		Phone phone = phoneService.findPhone(cid);
 		request.setAttribute("phone_id", cid);
 		request.setAttribute("phone_obj", phone);
 		request.getRequestDispatcher("../updateCon.jsp").forward(request, response);
@@ -152,7 +154,7 @@ public class PersonController {
 		contactService.updateContact(c);
 
 		phoneService.updatePhone(phone);
-		res.sendRedirect("../display");
+		res.sendRedirect("./display");
 	}
 
 }

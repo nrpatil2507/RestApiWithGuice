@@ -4,9 +4,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 
-import com.axelor.db.Contact;
 import com.axelor.db.Person;
-import com.axelor.db.Phone;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.persist.Transactional;
@@ -50,37 +48,6 @@ public class PersonServiceImpl implements PersonService {
 	public List<Person> Getallperson() {
 		List<Person> p = em.get().createQuery("from Person", Person.class).getResultList();
 		return p;
-	}
-
-	// Contact crud
-	@Override
-	@Transactional
-	public void InsertPhone(Phone p, Contact c) {
-		em.get().persist(c);
-		em.get().persist(p);
-	}
-
-	@Override
-	@Transactional
-	public int DeletePhone(int id) {
-		Phone ph = em.get().find(Phone.class, id);
-		em.get().remove(ph);
-		Person p = ph.getPerson();
-		return p.getPid();
-	}
-
-	@Override
-	@Transactional
-	public Phone findPhone(int p) {
-		Phone phone = em.get().find(Phone.class, p);
-		return phone;
-	}
-
-	@Override
-	@Transactional
-	public void updateCon(Phone p, Contact c) {
-		em.get().persist(p);
-		em.get().persist(c);
 	}
 
 }
